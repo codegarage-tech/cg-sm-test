@@ -1,0 +1,104 @@
+apply plugin: 'com.android.application'
+
+android {
+
+    signingConfigs {
+        releaseConfig {
+            try {
+                keyAlias 'keydata.keystore'
+                keyPassword KEY_PASSWORD
+                storeFile file('../misc/keydata.keystore')
+                storePassword KEYSTORE_PASSWORD
+            } catch (ex) {
+                throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties.")
+            }
+        }
+    }
+
+    compileSdkVersion appCompileSdkVersion
+    buildToolsVersion appBuildToolsVersion
+
+    defaultConfig {
+        applicationId "tech.codegarage.apkbackup"
+        minSdkVersion appMinSdkVersion
+        targetSdkVersion appTargetSdkVersion
+        versionCode appVersionCode
+        versionName appVersionName
+
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+
+            shrinkResources false
+            minifyEnabled false
+            debuggable true
+
+            //For single file
+//            proguardFile 'litepal.pro'
+
+            //For all files
+            proguardFiles fileTree(dir: "rules", include: ["*.pro"]).asList().toArray()
+
+//            signingConfig signingConfigs.releaseConfig
+        }
+        release {
+            shrinkResources false
+            minifyEnabled false
+            debuggable false
+
+            //For single file
+//            proguardFile 'aboutbox.pro'
+
+            //For all files
+//            proguardFiles fileTree(dir: "rules", include: ["*.pro"]).asList().toArray()
+
+            signingConfig signingConfigs.releaseConfig
+        }
+    }
+
+    flavorDimensions "default"
+    productFlavors {
+        english {
+            applicationIdSuffix ".en"
+            signingConfig signingConfigs.releaseConfig
+        }
+        deutsch {
+            applicationIdSuffix ".de"
+            signingConfig signingConfigs.releaseConfig
+        }
+        bengali {
+            applicationIdSuffix ".bn"
+            signingConfig signingConfigs.releaseConfig
+        }
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+
+            def stringsFile = android.sourceSets.main.res.sourceFiles.find {
+                it.name.equals 'strings.xml'
+            }
+            def appName = "ApkBackup"
+//            def appName = new XmlParser().parse(stringsFile).string.find { it.@name.equals 'app_name' }.text()
+            def separator = "_"
+            def flavor = variant.getFlavorName().equalsIgnoreCase("bengali") ? "bn" : variant.getFlavorName().substring(0, 2)
+            def version = variant.versionName
+            def buildType = variant.baseName.split("-")[1]
+            def releaseApkName = appName + separator + flavor + separator + version + separator + buildType + ".apk"
+            outputFileName = releaseApkName
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation "com.android.support:appcompat-v7:$supportlibraryVersion"
+    implementation "com.android.support:design:$supportlibraryVersion"
+
+    implementation project(':coolmenu')
+}
