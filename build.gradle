@@ -43,7 +43,7 @@ allprojects {
     ext.appTargetSdkVersion = 27
     ext.appCompileSdkVersion = 27
     ext.appBuildToolsVersion = '27.0.3'
-    ext.supportlibraryVersion = '27.0.2'
+    ext.supportlibraryVersion = '27.1.1'
     ext.constraintLayoutVersion = '1.0.2'
     ext.multiDexVersion = '1.0.2'
     ext.glideVersion = '4.0.0'
