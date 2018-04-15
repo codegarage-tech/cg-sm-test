@@ -101,4 +101,5 @@ dependencies {
     implementation "com.android.support:design:$supportlibraryVersion"
 
     implementation project(':coolmenu')
+    implementation project(':jellytoolbar')
 }
