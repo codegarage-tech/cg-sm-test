@@ -1,14 +1,105 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<!--<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="#CDDBEE"
-    tools:context="tech.codegarage.apkbackup.MainActivity">
+    android:background="#CDDBEE">
 
-    <include layout="@layout/content_main" />
 
-</FrameLayout>
+</LinearLayout>-->
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <io.codetail.widget.RevealFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/container_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/content_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:orientation="vertical" />
+
+        <LinearLayout
+            android:id="@+id/content_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:orientation="vertical" />
+
+        <com.yalantis.jellytoolbar.widget.JellyToolbar
+            android:id="@+id/toolbar"
+            style="@style/toolbar_base"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cancelIcon="@drawable/ic_close"
+            app:endColor="@color/colorEnd"
+            app:icon="@drawable/ic_search"
+            app:startColor="@color/colorStart"
+            app:titleTextColor="@android:color/white" />
+
+        <!--<android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />-->
+        <!--<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/toolbar"
+            style="@style/toolbar_base"
+            app:contentInsetStart="0dp"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/vector_ic_back_empty_white"
+                android:visibility="gone" />
+
+            <tech.codegarage.apkbackup.view.CanaroTextView
+                android:id="@+id/text_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Title"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/iv_filter"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="end"
+                android:layout_marginRight="10dp"
+                android:visibility="gone" />
+
+        </android.support.v7.widget.Toolbar>
+-->
+    </io.codetail.widget.RevealFrameLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="@dimen/sliding_menu_width"
+        android:layout_height="match_parent"
+        android:layout_gravity="start|bottom"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:scrollbarThumbVertical="@android:color/transparent">
+
+        <LinearLayout
+            android:id="@+id/left_drawer"
+            android:layout_width="@dimen/sliding_menu_width"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:divider="@android:color/transparent"
+            android:orientation="vertical" />
+    </ScrollView>
+</android.support.v4.widget.DrawerLayout>

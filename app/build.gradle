@@ -99,7 +99,9 @@ dependencies {
 
     implementation "com.android.support:appcompat-v7:$supportlibraryVersion"
     implementation "com.android.support:design:$supportlibraryVersion"
+    implementation "com.android.support:multidex:$multiDexVersion"
+    implementation 'com.github.ozodrukh:CircularReveal:1.3.1'
 
-    implementation project(':coolmenu')
+    implementation project(':sidemenu')
     implementation project(':jellytoolbar')
 }

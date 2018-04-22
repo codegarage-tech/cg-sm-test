@@ -4,7 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/cg-ab.iml" filepath="$PROJECT_DIR$/cg-ab.iml" />
-      <module fileurl="file://$PROJECT_DIR$/coolmenu/coolmenu.iml" filepath="$PROJECT_DIR$/coolmenu/coolmenu.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jellytoolbar/jellytoolbar.iml" filepath="$PROJECT_DIR$/jellytoolbar/jellytoolbar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sidemenu/sidemenu.iml" filepath="$PROJECT_DIR$/sidemenu/sidemenu.iml" />
     </modules>
   </component>
 </project>
