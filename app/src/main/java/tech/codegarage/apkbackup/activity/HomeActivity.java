@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
@@ -111,12 +112,22 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     public void initActivityBackPress() {
-
+        if (isDrawerOpen()) {
+            drawerLayout.closeDrawers();
+        } else if (toolbar.isExpanded()) {
+            toolbar.collapse();
+        } else {
+            finish();
+        }
     }
 
     @Override
     public void initActivityPermissionResult(int requestCode, String[] permissions, int[] grantResults) {
 
+    }
+
+    private boolean isDrawerOpen() {
+        return drawerLayout.isDrawerOpen(GravityCompat.START);
     }
 
     private void setHomeFragment() {

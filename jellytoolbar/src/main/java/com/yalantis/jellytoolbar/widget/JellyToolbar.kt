@@ -62,7 +62,7 @@ class JellyToolbar : FrameLayout, JellyWidget {
         }
     var jellyListener: JellyListener? = null
 
-    private var isExpanded = false
+    public var isExpanded = false
 
     constructor(context: Context?) : this(context, null)
     constructor(context: Context?, attrs: AttributeSet?) : this(context, attrs, 0)

@@ -104,4 +104,5 @@ dependencies {
 
     implementation project(':sidemenu')
     implementation project(':jellytoolbar')
+    implementation project(':colormatchtabs')
 }
