@@ -1,6 +1,5 @@
 package tech.codegarage.apkbackup.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -60,11 +59,6 @@ public class HomeActivity extends BaseActivity {
     private JellyToolbar toolbar;
     private AppCompatEditText editText;
     private JellyListener jellyListener;
-
-    @Override
-    public Context initActivityContext() {
-        return HomeActivity.this;
-    }
 
     @Override
     public int initActivityLayout() {
@@ -226,7 +220,7 @@ public class HomeActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        drawerToggle = new ActionBarDrawerToggle((HomeActivity) getContext(), drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
+        drawerToggle = new ActionBarDrawerToggle(getActivity(), drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
 
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);

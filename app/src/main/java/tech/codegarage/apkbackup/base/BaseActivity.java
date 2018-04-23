@@ -1,6 +1,6 @@
 package tech.codegarage.apkbackup.base;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,12 +24,12 @@ import static tech.codegarage.apkbackup.util.RuntimePermissionManager.REQUEST_CO
  */
 public abstract class BaseActivity extends AppCompatActivity {
 
-    private Context mContext;
+    private BaseActivity mActivity;
     public Bundle mSavedInstanceState;
     private String TAG = BaseActivity.class.getSimpleName();
 
     //Abstract declaration
-    public abstract Context initActivityContext();
+//    public abstract Context initActivityContext();
 
     public abstract int initActivityLayout();
 
@@ -47,12 +47,15 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public abstract void initActivityPermissionResult(int requestCode, String permissions[], int[] grantResults);
 
+    public BaseActivity() {
+        this.mActivity = this;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(initActivityLayout());
 
-        mContext = initActivityContext();
         mSavedInstanceState = savedInstanceState;
         initIntentData(mSavedInstanceState, getIntent());
         initActivityViews();
@@ -63,12 +66,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public Context getContext() {
-        return mContext;
-    }
-
-    public void setContext(Context mContext) {
-        this.mContext = mContext;
+    public Activity getActivity() {
+        return mActivity;
     }
 
     @Override
@@ -88,8 +87,8 @@ public abstract class BaseActivity extends AppCompatActivity {
      **********************/
     private boolean checkAndRequestPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!RuntimePermissionManager.isAllPermissionsGranted(mContext)) {
-                ArrayList<String> permissionNeeded = RuntimePermissionManager.getAllUnGrantedPermissions(mContext);
+            if (!RuntimePermissionManager.isAllPermissionsGranted(mActivity)) {
+                ArrayList<String> permissionNeeded = RuntimePermissionManager.getAllUnGrantedPermissions(mActivity);
                 for (int i = 0; i < permissionNeeded.size(); i++) {
                     Log.d(TAG, "Ungranted Permission: " + permissionNeeded.get(i));
                 }
@@ -107,7 +106,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         switch (requestCode) {
             case REQUEST_CODE_PERMISSION:
-                if (RuntimePermissionManager.isAllPermissionsGranted(mContext, permissions)) {
+                if (RuntimePermissionManager.isAllPermissionsGranted(mActivity, permissions)) {
                     initActivityViewsData(mSavedInstanceState);
                     initActivityActions(mSavedInstanceState);
                 }
