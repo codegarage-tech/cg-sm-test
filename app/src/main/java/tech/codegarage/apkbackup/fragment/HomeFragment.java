@@ -13,6 +13,10 @@ import android.widget.ImageView;
 import tech.codegarage.apkbackup.R;
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
 
+/**
+ * @author Md. Rashadul Alam
+ * Email: rashed.droid@gmail.com
+ */
 public class HomeFragment extends Fragment implements ScreenShotable {
 
     private View containerView;

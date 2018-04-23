@@ -5,6 +5,10 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatDelegate;
 
+/**
+ * @author Md. Rashadul Alam
+ * Email: rashed.droid@gmail.com
+ */
 public class ApkBackupApp extends Application {
 
     private static Context mContext;

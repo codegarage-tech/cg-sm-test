@@ -1,11 +1,12 @@
 package tech.codegarage.apkbackup.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import java.util.List;
 import io.codetail.animation.SupportAnimator;
 import io.codetail.animation.ViewAnimationUtils;
 import tech.codegarage.apkbackup.R;
+import tech.codegarage.apkbackup.base.BaseActivity;
 import tech.codegarage.apkbackup.customizableactionbardrawertoggle.ActionBarDrawerToggle;
 import tech.codegarage.apkbackup.fragment.HomeFragment;
 import yalantis.com.sidemenu.interfaces.Resourceble;
@@ -36,59 +38,101 @@ import static tech.codegarage.apkbackup.util.AllConstants.HOME;
 import static tech.codegarage.apkbackup.util.AllConstants.RATE;
 import static tech.codegarage.apkbackup.util.AllConstants.SETTINGS;
 import static tech.codegarage.apkbackup.util.AllConstants.TEXT_KEY;
+import static tech.codegarage.apkbackup.util.AppUtil.getStatusBarHeight;
 
-public class MainActivity extends AppCompatActivity {
+/**
+ * @author Md. Rashadul Alam
+ * Email: rashed.droid@gmail.com
+ */
+public class HomeActivity extends BaseActivity {
 
+    //Side menu
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private List<SlideMenuItem> list = new ArrayList<>();
     private HomeFragment contentFragment;
     private ViewAnimator viewAnimator;
-    private int res = R.drawable.content_music;
-    private LinearLayout linearLayout;
+    private LinearLayout leftDrawer;
+    private View viewContentFrame, viewContentOverlay;
 
     //Jelly toolbar
     private JellyToolbar toolbar;
     private AppCompatEditText editText;
-    private JellyListener jellyListener = new JellyListener() {
-        @Override
-        public void onCancelIconClicked() {
-            if (TextUtils.isEmpty(editText.getText())) {
-                toolbar.collapse();
-            } else {
-                editText.getText().clear();
-            }
-        }
-    };
+    private JellyListener jellyListener;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        contentFragment = HomeFragment.newInstance(R.drawable.content_music);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.content_frame, contentFragment)
-                .commit();
+    public Context initActivityContext() {
+        return HomeActivity.this;
+    }
+
+    @Override
+    public int initActivityLayout() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    public void initIntentData(Bundle savedInstanceState, Intent intent) {
+
+    }
+
+    @Override
+    public void initActivityViews() {
+        toolbar = (JellyToolbar) findViewById(R.id.toolbar);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerLayout.setScrimColor(Color.TRANSPARENT);
-        linearLayout = (LinearLayout) findViewById(R.id.left_drawer);
-        linearLayout.setPadding(0, getStatusBarHeight(), 0, 0);
-        linearLayout.setOnClickListener(new View.OnClickListener() {
+        leftDrawer = (LinearLayout) findViewById(R.id.left_drawer);
+        viewContentFrame = findViewById(R.id.content_frame);
+        viewContentOverlay = findViewById(R.id.content_overlay);
+    }
+
+    @Override
+    public void initActivityViewsData(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            setHomeFragment();
+        }
+        setActionBar();
+        setMenuList();
+        setDrawer();
+    }
+
+    @Override
+    public void initActivityActions(Bundle savedInstanceState) {
+        leftDrawer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 drawerLayout.closeDrawers();
             }
         });
+    }
 
+    @Override
+    public void initActivityOnResult(int requestCode, int resultCode, Intent data) {
 
-        setActionBar();
-        createMenuList();
-        viewAnimator = new ViewAnimator<>(this, list, contentFragment, drawerLayout, new ViewAnimator.ViewAnimatorListener() {
+    }
+
+    @Override
+    public void initActivityBackPress() {
+
+    }
+
+    @Override
+    public void initActivityPermissionResult(int requestCode, String[] permissions, int[] grantResults) {
+
+    }
+
+    private void setHomeFragment() {
+        contentFragment = HomeFragment.newInstance(R.drawable.content_music);
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, contentFragment).commit();
+    }
+
+    private void setDrawer() {
+        drawerLayout.setScrimColor(Color.TRANSPARENT);
+        leftDrawer.setPadding(0, getStatusBarHeight(HomeActivity.this), 0, 0);
+        viewAnimator = new ViewAnimator<>(HomeActivity.this, list, contentFragment, drawerLayout, new ViewAnimator.ViewAnimatorListener() {
 
             @Override
             public ScreenShotable onSwitch(Resourceble slideMenuItem, ScreenShotable screenShotable, int position) {
                 switch (slideMenuItem.getName()) {
-//            case HomeFragment.EMPTY1:
+//            case HomeFragment.CLOSE:
 //                return screenShotable;
                     default:
                         return replaceFragment(screenShotable, position);
@@ -97,20 +141,20 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void disableHomeButton() {
-//                getSupportActionBar().setHomeButtonEnabled(false);
+                getSupportActionBar().setHomeButtonEnabled(false);
 
             }
 
             @Override
             public void enableHomeButton() {
-//                getSupportActionBar().setHomeButtonEnabled(true);
+                getSupportActionBar().setHomeButtonEnabled(true);
                 drawerLayout.closeDrawers();
 
             }
 
             @Override
             public void addViewToContainer(View view) {
-//                LinearLayout subLayout = new LinearLayout(MainActivity.this);
+//                LinearLayout subLayout = new LinearLayout(HomeActivity.this);
 //                subLayout.setOrientation(LinearLayout.VERTICAL);
 //                LinearLayout.LayoutParams subParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1);
 //                subLayout.addView(view, subParams);
@@ -118,41 +162,38 @@ public class MainActivity extends AppCompatActivity {
 //                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 //                linearLayout.addView(subLayout, params);
 
-                linearLayout.addView(view);
+                leftDrawer.addView(view);
             }
         });
     }
 
-    private void createMenuList() {
+    private void setMenuList() {
         SlideMenuItem menuItem1 = new SlideMenuItem(HOME, R.drawable.icn_1);
         list.add(menuItem1);
         SlideMenuItem menuItem2 = new SlideMenuItem(BACKUP, R.drawable.icn_2);
         list.add(menuItem2);
         SlideMenuItem menuItem3 = new SlideMenuItem(RATE, R.drawable.icn_3);
         list.add(menuItem3);
-//        SlideMenuItem menuItem4 = new SlideMenuItem(MORE, R.drawable.icn_4);
-//        list.add(menuItem4);
         SlideMenuItem menuItem5 = new SlideMenuItem(ABOUT, R.drawable.icn_5);
         list.add(menuItem5);
         SlideMenuItem menuItem6 = new SlideMenuItem(SETTINGS, R.drawable.icn_4);
         list.add(menuItem6);
     }
 
-    private int getStatusBarHeight() {
-        int result = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
-    }
-
     private void setActionBar() {
-
-        toolbar = (JellyToolbar) findViewById(R.id.toolbar);
+        jellyListener = new JellyListener() {
+            @Override
+            public void onCancelIconClicked() {
+                if (TextUtils.isEmpty(editText.getText())) {
+                    toolbar.collapse();
+                } else {
+                    editText.getText().clear();
+                }
+            }
+        };
         toolbar.getToolbar().setNavigationIcon(R.drawable.ic_menu);
         toolbar.setJellyListener(jellyListener);
-        toolbar.getToolbar().setPadding(0, getStatusBarHeight(), 0, 0);
+        toolbar.getToolbar().setPadding(0, getStatusBarHeight(HomeActivity.this), 0, 0);
 
         editText = (AppCompatEditText) LayoutInflater.from(this).inflate(R.layout.toolbar_edittext, null);
         editText.setBackgroundResource(R.color.colorTransparent);
@@ -174,60 +215,21 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-//        drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
-//            @Override
-//            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
-//                if (slideOffset > 0.6 && linearLayout.getChildCount() == 0) {
-//                    viewAnimator.showMenuContent();
-//                }
-//            }
-//
-//            @Override
-//            public void onDrawerOpened(@NonNull View drawerView) {
-//
-//            }
-//
-//            @Override
-//            public void onDrawerClosed(@NonNull View drawerView) {
-//                linearLayout.removeAllViews();
-//                linearLayout.invalidate();
-//            }
-//
-//            @Override
-//            public void onDrawerStateChanged(int newState) {
-//
-//            }
-//        });
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar((Toolbar) toolbar);
+        drawerToggle = new ActionBarDrawerToggle((HomeActivity) getContext(), drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
 
-//        getSupportActionBar().setHomeButtonEnabled(true);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        drawerToggle = new ActionBarDrawerToggle(
-                this,                  /* host Activity */
-                drawerLayout,         /* DrawerLayout object */
-                toolbar,  /* nav drawer icon to replace 'Up' caret */
-                R.string.drawer_open,  /* "open drawer" description */
-                R.string.drawer_close  /* "close drawer" description */
-        ) {
-
-            /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
-                linearLayout.removeAllViews();
-                linearLayout.invalidate();
+                leftDrawer.removeAllViews();
+                leftDrawer.invalidate();
             }
 
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
                 super.onDrawerSlide(drawerView, slideOffset);
-                if (slideOffset > 0.6 && linearLayout.getChildCount() == 0)
+                if (slideOffset > 0.6 && leftDrawer.getChildCount() == 0)
                     viewAnimator.showMenuContent();
             }
 
-            /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
             }
@@ -255,6 +257,14 @@ public class MainActivity extends AppCompatActivity {
         if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
+
+//         switch (item.getItemId()) {
+//            case R.id.action_settings:
+//                return true;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -271,19 +281,17 @@ public class MainActivity extends AppCompatActivity {
         editText.setSelection(editText.getText().length());
     }
 
-
     private ScreenShotable replaceFragment(ScreenShotable screenShotable, int topPosition) {
-        this.res = this.res == R.drawable.content_music ? R.drawable.content_films : R.drawable.content_music;
-        View view = findViewById(R.id.content_frame);
-        int finalRadius = Math.max(view.getWidth(), view.getHeight());
-        SupportAnimator animator = ViewAnimationUtils.createCircularReveal(view, 0, topPosition, 0, finalRadius);
+        int finalRadius = Math.max(viewContentFrame.getWidth(), viewContentFrame.getHeight());
+        SupportAnimator animator = ViewAnimationUtils.createCircularReveal(viewContentFrame, 0, topPosition, 0, finalRadius);
         animator.setInterpolator(new AccelerateInterpolator());
         animator.setDuration(ViewAnimator.CIRCULAR_REVEAL_ANIMATION_DURATION);
 
-        findViewById(R.id.content_overlay).setBackgroundDrawable(new BitmapDrawable(getResources(), screenShotable.getBitmap()));
+        viewContentOverlay.setBackgroundDrawable(new BitmapDrawable(getResources(), screenShotable.getBitmap()));
         animator.start();
-        HomeFragment contentFragment = HomeFragment.newInstance(this.res);
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, contentFragment).commit();
+
+        setHomeFragment();
+
         return contentFragment;
     }
 }
