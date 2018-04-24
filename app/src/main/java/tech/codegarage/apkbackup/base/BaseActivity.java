@@ -12,8 +12,6 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import tech.codegarage.apkbackup.interfaces.OnFragmentBackPressedListener;
-import tech.codegarage.apkbackup.interfaces.OnFragmentResultListener;
 import tech.codegarage.apkbackup.util.RuntimePermissionManager;
 
 import static tech.codegarage.apkbackup.util.RuntimePermissionManager.REQUEST_CODE_PERMISSION;
@@ -123,8 +121,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         List<Fragment> fragmentList = getSupportFragmentManager().getFragments();
         if (fragmentList != null) {
             for (Fragment fragment : fragmentList) {
-                if (fragment instanceof OnFragmentResultListener) {
-                    ((OnFragmentResultListener) fragment).onFragmentResult(requestCode, resultCode, data);
+                if (fragment instanceof BaseFragment) {
+                    ((BaseFragment) fragment).onFragmentResult(requestCode, resultCode, data);
                 }
             }
         }
@@ -138,8 +136,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         List<Fragment> fragmentList = getSupportFragmentManager().getFragments();
         if (fragmentList != null) {
             for (Fragment fragment : fragmentList) {
-                if (fragment instanceof OnFragmentBackPressedListener) {
-                    ((OnFragmentBackPressedListener) fragment).onFragmentBackPressed();
+                if (fragment instanceof BaseFragment) {
+                    ((BaseFragment) fragment).onFragmentBackPressed();
                 }
             }
         }

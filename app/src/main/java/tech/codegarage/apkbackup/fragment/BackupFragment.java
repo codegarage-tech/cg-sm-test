@@ -3,7 +3,12 @@ package tech.codegarage.apkbackup.fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import tech.codegarage.apkbackup.R;
 import tech.codegarage.apkbackup.base.BaseFragment;
@@ -13,16 +18,16 @@ import yalantis.com.sidemenu.interfaces.ScreenShotable;
  * @author Md. Rashadul Alam
  * Email: rashed.droid@gmail.com
  */
-public class HomeFragment extends BaseFragment implements ScreenShotable {
+public class BackupFragment extends BaseFragment implements ScreenShotable {
 
     private View containerView;
-    //    protected ImageView mImageView;
+//    protected ImageView mImageView;
 //    protected int res;
     private Bitmap bitmap;
 
     @Override
     public int initFragmentLayout() {
-        return R.layout.fragment_home;
+        return R.layout.fragment_backup;
     }
 
     @Override
@@ -92,7 +97,7 @@ public class HomeFragment extends BaseFragment implements ScreenShotable {
                         containerView.getHeight(), Bitmap.Config.ARGB_8888);
                 Canvas canvas = new Canvas(bitmap);
                 containerView.draw(canvas);
-                HomeFragment.this.bitmap = bitmap;
+                BackupFragment.this.bitmap = bitmap;
             }
         };
 

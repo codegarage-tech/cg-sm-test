@@ -27,16 +27,12 @@ import tech.codegarage.apkbackup.R;
 import tech.codegarage.apkbackup.base.BaseActivity;
 import tech.codegarage.apkbackup.customizableactionbardrawertoggle.ActionBarDrawerToggle;
 import tech.codegarage.apkbackup.fragment.HomeFragment;
+import yalantis.com.sidemenu.enumeration.MenuType;
 import yalantis.com.sidemenu.interfaces.Resourceble;
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
 import yalantis.com.sidemenu.model.SlideMenuItem;
 import yalantis.com.sidemenu.util.ViewAnimator;
 
-import static tech.codegarage.apkbackup.util.AllConstants.ABOUT;
-import static tech.codegarage.apkbackup.util.AllConstants.BACKUP;
-import static tech.codegarage.apkbackup.util.AllConstants.HOME;
-import static tech.codegarage.apkbackup.util.AllConstants.RATE;
-import static tech.codegarage.apkbackup.util.AllConstants.SETTINGS;
 import static tech.codegarage.apkbackup.util.AllConstants.TEXT_KEY;
 import static tech.codegarage.apkbackup.util.AppUtil.getStatusBarHeight;
 
@@ -125,20 +121,20 @@ public class HomeActivity extends BaseActivity {
     }
 
     private void setHomeFragment() {
-        contentFragment = HomeFragment.newInstance(R.drawable.content_music);
+        contentFragment = new HomeFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, contentFragment).commit();
     }
 
     private void setDrawer() {
         drawerLayout.setScrimColor(Color.TRANSPARENT);
-        leftDrawer.setPadding(0, getStatusBarHeight(HomeActivity.this), 0, 0);
-        viewAnimator = new ViewAnimator<>(HomeActivity.this, list, contentFragment, drawerLayout, new ViewAnimator.ViewAnimatorListener() {
+        leftDrawer.setPadding(0, getStatusBarHeight(getActivity()), 0, 0);
+        viewAnimator = new ViewAnimator<>(getActivity(), list, contentFragment, drawerLayout, new ViewAnimator.ViewAnimatorListener() {
 
             @Override
             public ScreenShotable onSwitch(Resourceble slideMenuItem, ScreenShotable screenShotable, int position) {
-                switch (slideMenuItem.getName()) {
-//            case HomeFragment.CLOSE:
-//                return screenShotable;
+                switch (MenuType.valueOf(slideMenuItem.getName())) {
+                    case HOME:
+                        return screenShotable;
                     default:
                         return replaceFragment(screenShotable, position);
                 }
@@ -173,16 +169,11 @@ public class HomeActivity extends BaseActivity {
     }
 
     private void setMenuList() {
-        SlideMenuItem menuItem1 = new SlideMenuItem(HOME, R.drawable.icn_1);
-        list.add(menuItem1);
-        SlideMenuItem menuItem2 = new SlideMenuItem(BACKUP, R.drawable.icn_2);
-        list.add(menuItem2);
-        SlideMenuItem menuItem3 = new SlideMenuItem(RATE, R.drawable.icn_3);
-        list.add(menuItem3);
-        SlideMenuItem menuItem5 = new SlideMenuItem(ABOUT, R.drawable.icn_5);
-        list.add(menuItem5);
-        SlideMenuItem menuItem6 = new SlideMenuItem(SETTINGS, R.drawable.icn_4);
-        list.add(menuItem6);
+        SlideMenuItem menuItem;
+        for (int i = 0; i < MenuType.values().length; i++) {
+            menuItem = new SlideMenuItem(MenuType.values()[i].getValue(), MenuType.values()[i].getImageResourceId());
+            list.add(menuItem);
+        }
     }
 
     private void setActionBar() {
@@ -198,7 +189,7 @@ public class HomeActivity extends BaseActivity {
         };
         toolbar.getToolbar().setNavigationIcon(R.drawable.ic_menu);
         toolbar.setJellyListener(jellyListener);
-        toolbar.getToolbar().setPadding(0, getStatusBarHeight(HomeActivity.this), 0, 0);
+        toolbar.getToolbar().setPadding(0, getStatusBarHeight(getActivity()), 0, 0);
 
         editText = (AppCompatEditText) LayoutInflater.from(this).inflate(R.layout.toolbar_edittext, null);
         editText.setBackgroundResource(R.color.colorTransparent);
@@ -286,7 +277,7 @@ public class HomeActivity extends BaseActivity {
         editText.setSelection(editText.getText().length());
     }
 
-    private ScreenShotable replaceFragment(ScreenShotable screenShotable, int topPosition) {
+    private ScreenShotable replaceFragment(Resourceble slideMenuItem, ScreenShotable screenShotable, int topPosition) {
         int finalRadius = Math.max(viewContentFrame.getWidth(), viewContentFrame.getHeight());
         SupportAnimator animator = ViewAnimationUtils.createCircularReveal(viewContentFrame, 0, topPosition, 0, finalRadius);
         animator.setInterpolator(new AccelerateInterpolator());
@@ -295,6 +286,18 @@ public class HomeActivity extends BaseActivity {
         viewContentOverlay.setBackgroundDrawable(new BitmapDrawable(getResources(), screenShotable.getBitmap()));
         animator.start();
 
+        switch (MenuType.valueOf(slideMenuItem.getName())) {
+            case HOME:
+                break;
+            case BACKUP:
+                break;
+            case RATE:
+                break;
+            case ABOUT:
+                break;
+            case SETTINGS:
+                break;
+        }
         setHomeFragment();
 
         return contentFragment;
