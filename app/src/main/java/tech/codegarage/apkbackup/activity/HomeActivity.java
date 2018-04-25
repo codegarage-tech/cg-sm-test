@@ -27,6 +27,7 @@ import tech.codegarage.apkbackup.R;
 import tech.codegarage.apkbackup.base.BaseActivity;
 import tech.codegarage.apkbackup.customizableactionbardrawertoggle.ActionBarDrawerToggle;
 import tech.codegarage.apkbackup.fragment.HomeFragment;
+import tech.codegarage.apkbackup.util.EnumManager;
 import yalantis.com.sidemenu.enumeration.MenuType;
 import yalantis.com.sidemenu.interfaces.Resourceble;
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
@@ -132,11 +133,11 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public ScreenShotable onSwitch(Resourceble slideMenuItem, ScreenShotable screenShotable, int position) {
-                switch (MenuType.valueOf(slideMenuItem.getName())) {
+                switch (EnumManager.from(MenuType.class, slideMenuItem.getName())) {
                     case HOME:
                         return screenShotable;
                     default:
-                        return replaceFragment(screenShotable, position);
+                        return replaceFragment(slideMenuItem, screenShotable, position);
                 }
             }
 
@@ -286,7 +287,7 @@ public class HomeActivity extends BaseActivity {
         viewContentOverlay.setBackgroundDrawable(new BitmapDrawable(getResources(), screenShotable.getBitmap()));
         animator.start();
 
-        switch (MenuType.valueOf(slideMenuItem.getName())) {
+        switch (EnumManager.from(MenuType.class, slideMenuItem.getName())) {
             case HOME:
                 break;
             case BACKUP:
