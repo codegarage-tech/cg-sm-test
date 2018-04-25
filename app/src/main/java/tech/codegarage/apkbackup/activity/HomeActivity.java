@@ -58,6 +58,11 @@ public class HomeActivity extends BaseActivity {
     private JellyListener jellyListener;
 
     @Override
+    public String initActivityTag() {
+        return HomeActivity.class.getSimpleName();
+    }
+
+    @Override
     public int initActivityLayout() {
         return R.layout.activity_main;
     }
@@ -133,7 +138,7 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public ScreenShotable onSwitch(Resourceble slideMenuItem, ScreenShotable screenShotable, int position) {
-                switch (EnumManager.from(MenuType.class, slideMenuItem.getName())) {
+                switch (MenuType.fromValue(slideMenuItem.getName())) {
                     case HOME:
                         return screenShotable;
                     default:

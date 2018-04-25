@@ -21,4 +21,13 @@ public enum MenuType {
     public int getImageResourceId() {
         return mImageResourceId;
     }
+
+    public static MenuType fromValue(String value) {
+        for (MenuType menuType : MenuType.values()) {
+            if (menuType.getValue() == value) {
+                return menuType;
+            }
+        }
+        return null;
+    }
 }
