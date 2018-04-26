@@ -1,8 +1,6 @@
 package tech.codegarage.apkbackup.fragment;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.view.View;
 
 import tech.codegarage.apkbackup.R;
@@ -15,10 +13,10 @@ import yalantis.com.sidemenu.interfaces.ScreenShotable;
  */
 public class HomeFragment extends BaseFragment implements ScreenShotable {
 
-    private View containerView;
+//    private View containerView;
     //    protected ImageView mImageView;
 //    protected int res;
-    private Bitmap bitmap;
+//    private Bitmap bitmap;
 
     @Override
     public int initFragmentLayout() {
@@ -27,7 +25,7 @@ public class HomeFragment extends BaseFragment implements ScreenShotable {
 
     @Override
     public void initFragmentViews(View parentView) {
-        containerView = parentView.findViewById(R.id.container);
+//        containerView = parentView.findViewById(R.id.container);
     }
 
     @Override
@@ -83,25 +81,25 @@ public class HomeFragment extends BaseFragment implements ScreenShotable {
 //        return rootView;
 //    }
 
-    @Override
-    public void takeScreenShot() {
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                Bitmap bitmap = Bitmap.createBitmap(containerView.getWidth(),
-                        containerView.getHeight(), Bitmap.Config.ARGB_8888);
-                Canvas canvas = new Canvas(bitmap);
-                containerView.draw(canvas);
-                HomeFragment.this.bitmap = bitmap;
-            }
-        };
-
-        thread.start();
-
-    }
-
-    @Override
-    public Bitmap getBitmap() {
-        return bitmap;
-    }
+//    @Override
+//    public void takeScreenShot() {
+//        Thread thread = new Thread() {
+//            @Override
+//            public void run() {
+//                Bitmap bitmap = Bitmap.createBitmap(containerView.getWidth(),
+//                        containerView.getHeight(), Bitmap.Config.ARGB_8888);
+//                Canvas canvas = new Canvas(bitmap);
+//                containerView.draw(canvas);
+//                HomeFragment.this.bitmap = bitmap;
+//            }
+//        };
+//
+//        thread.start();
+//
+//    }
+//
+//    @Override
+//    public Bitmap getBitmap() {
+//        return bitmap;
+//    }
 }

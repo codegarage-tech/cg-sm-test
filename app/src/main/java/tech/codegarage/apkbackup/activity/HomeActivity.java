@@ -25,6 +25,7 @@ import io.codetail.animation.SupportAnimator;
 import io.codetail.animation.ViewAnimationUtils;
 import tech.codegarage.apkbackup.R;
 import tech.codegarage.apkbackup.base.BaseActivity;
+import tech.codegarage.apkbackup.base.BaseFragment;
 import tech.codegarage.apkbackup.customizableactionbardrawertoggle.ActionBarDrawerToggle;
 import tech.codegarage.apkbackup.fragment.HomeFragment;
 import tech.codegarage.apkbackup.util.EnumManager;
@@ -36,6 +37,7 @@ import yalantis.com.sidemenu.util.ViewAnimator;
 
 import static tech.codegarage.apkbackup.util.AllConstants.TEXT_KEY;
 import static tech.codegarage.apkbackup.util.AppUtil.getStatusBarHeight;
+import static yalantis.com.sidemenu.enumeration.MenuType.HOME;
 
 /**
  * @author Md. Rashadul Alam
@@ -47,7 +49,7 @@ public class HomeActivity extends BaseActivity {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private List<SlideMenuItem> list = new ArrayList<>();
-    private HomeFragment contentFragment;
+    private BaseFragment contentFragment;
     private ViewAnimator viewAnimator;
     private LinearLayout leftDrawer;
     private View viewContentFrame, viewContentOverlay;
@@ -84,7 +86,7 @@ public class HomeActivity extends BaseActivity {
     @Override
     public void initActivityViewsData(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
-            setHomeFragment();
+            setFragment(MenuType.HOME);
         }
         setActionBar();
         setMenuList();
@@ -126,7 +128,7 @@ public class HomeActivity extends BaseActivity {
         return drawerLayout.isDrawerOpen(GravityCompat.START);
     }
 
-    private void setHomeFragment() {
+    private void setFragment(MenuType menuType) {
         contentFragment = new HomeFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, contentFragment).commit();
     }
@@ -292,10 +294,12 @@ public class HomeActivity extends BaseActivity {
         viewContentOverlay.setBackgroundDrawable(new BitmapDrawable(getResources(), screenShotable.getBitmap()));
         animator.start();
 
-        switch (EnumManager.from(MenuType.class, slideMenuItem.getName())) {
+        switch (MenuType.fromValue(slideMenuItem.getName())) {
             case HOME:
+                setFragment(MenuType.HOME);
                 break;
             case BACKUP:
+                setFragment(MenuType.BACKUP);
                 break;
             case RATE:
                 break;
@@ -304,7 +308,6 @@ public class HomeActivity extends BaseActivity {
             case SETTINGS:
                 break;
         }
-        setHomeFragment();
 
         return contentFragment;
     }
