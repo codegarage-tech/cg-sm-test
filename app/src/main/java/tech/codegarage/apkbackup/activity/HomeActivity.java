@@ -27,8 +27,8 @@ import tech.codegarage.apkbackup.R;
 import tech.codegarage.apkbackup.base.BaseActivity;
 import tech.codegarage.apkbackup.base.BaseFragment;
 import tech.codegarage.apkbackup.customizableactionbardrawertoggle.ActionBarDrawerToggle;
+import tech.codegarage.apkbackup.fragment.BackupFragment;
 import tech.codegarage.apkbackup.fragment.HomeFragment;
-import tech.codegarage.apkbackup.util.EnumManager;
 import yalantis.com.sidemenu.enumeration.MenuType;
 import yalantis.com.sidemenu.interfaces.Resourceble;
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
@@ -37,7 +37,6 @@ import yalantis.com.sidemenu.util.ViewAnimator;
 
 import static tech.codegarage.apkbackup.util.AllConstants.TEXT_KEY;
 import static tech.codegarage.apkbackup.util.AppUtil.getStatusBarHeight;
-import static yalantis.com.sidemenu.enumeration.MenuType.HOME;
 
 /**
  * @author Md. Rashadul Alam
@@ -129,7 +128,20 @@ public class HomeActivity extends BaseActivity {
     }
 
     private void setFragment(MenuType menuType) {
-        contentFragment = new HomeFragment();
+        switch (menuType) {
+            case HOME:
+                contentFragment = new HomeFragment();
+                break;
+            case BACKUP:
+                contentFragment = new BackupFragment();
+                break;
+            case RATE:
+                break;
+            case ABOUT:
+                break;
+            case SETTINGS:
+                break;
+        }
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, contentFragment).commit();
     }
 

@@ -38,6 +38,10 @@ public abstract class BaseFragment extends Fragment implements OnFragmentBackPre
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        container.removeAllViews();
+        if (containerView != null) {
+            ((ViewGroup) containerView).removeAllViews();
+        }
         containerView = inflater.inflate(initFragmentLayout(), container, false);
 
         initFragmentViews(containerView);
@@ -62,10 +66,10 @@ public abstract class BaseFragment extends Fragment implements OnFragmentBackPre
         Thread thread = new Thread() {
             @Override
             public void run() {
-                Bitmap bitmap = Bitmap.createBitmap(containerView.getWidth(), containerView.getHeight(), Bitmap.Config.ARGB_8888);
-                Canvas canvas = new Canvas(bitmap);
+                Bitmap mBitmap = Bitmap.createBitmap(containerView.getWidth(), containerView.getHeight(), Bitmap.Config.ARGB_8888);
+                Canvas canvas = new Canvas(mBitmap);
                 containerView.draw(canvas);
-                bitmap = bitmap;
+                bitmap = mBitmap;
             }
         };
 
