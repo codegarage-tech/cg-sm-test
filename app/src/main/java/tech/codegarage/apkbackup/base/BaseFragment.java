@@ -1,6 +1,5 @@
 package tech.codegarage.apkbackup.base;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -10,8 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import io.codetail.widget.RevealFrameLayout;
-import tech.codegarage.apkbackup.R;
 import tech.codegarage.apkbackup.interfaces.OnFragmentBackPressedListener;
 import tech.codegarage.apkbackup.interfaces.OnFragmentResultListener;
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
@@ -23,7 +20,7 @@ import yalantis.com.sidemenu.interfaces.ScreenShotable;
 public abstract class BaseFragment extends Fragment implements OnFragmentBackPressedListener, OnFragmentResultListener, ScreenShotable {
 
     //Local variable
-    public RevealFrameLayout containerView;
+    public View containerView;
     public Bitmap bitmap;
 
     //Abstract declaration
@@ -41,18 +38,13 @@ public abstract class BaseFragment extends Fragment implements OnFragmentBackPre
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        container.removeAllViews();
-        View parentView = inflater.inflate(R.layout.fragment_base, container, false);
-        containerView.removeAllViews();
-//        LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View fragmentView = LayoutInflater.from(getContext()).inflate(initFragmentLayout(),null, false);
-        containerView.addView(fragmentView);
+        containerView = inflater.inflate(initFragmentLayout(), container, false);
 
-        initFragmentViews(fragmentView);
+        initFragmentViews(containerView);
         initFragmentViewsData();
         initFragmentActions();
 
-        return parentView;
+        return containerView;
     }
 
     @Override
