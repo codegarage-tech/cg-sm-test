@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.AppCompatEditText;
@@ -29,6 +30,7 @@ import tech.codegarage.apkbackup.base.BaseFragment;
 import tech.codegarage.apkbackup.customizableactionbardrawertoggle.ActionBarDrawerToggle;
 import tech.codegarage.apkbackup.fragment.BackupFragment;
 import tech.codegarage.apkbackup.fragment.HomeFragment;
+import tech.codegarage.apkbackup.util.FragmentUtilsManager;
 import yalantis.com.sidemenu.enumeration.MenuType;
 import yalantis.com.sidemenu.interfaces.Resourceble;
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
@@ -58,10 +60,10 @@ public class HomeActivity extends BaseActivity {
     private AppCompatEditText editText;
     private JellyListener jellyListener;
 
-    @Override
-    public String initActivityTag() {
-        return HomeActivity.class.getSimpleName();
-    }
+//    @Override
+//    public String initActivityTag() {
+//        return HomeActivity.class.getSimpleName();
+//    }
 
     @Override
     public int initActivityLayout() {
@@ -85,7 +87,8 @@ public class HomeActivity extends BaseActivity {
     @Override
     public void initActivityViewsData(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
-            setFragment(MenuType.HOME);
+            contentFragment = setFragment(MenuType.HOME);
+            goFragmentScreen(MenuType.HOME.name(), contentFragment);
         }
         setActionBar();
         setMenuList();
@@ -127,7 +130,7 @@ public class HomeActivity extends BaseActivity {
         return drawerLayout.isDrawerOpen(GravityCompat.START);
     }
 
-    private void setFragment(MenuType menuType) {
+    private BaseFragment setFragment(MenuType menuType) {
         switch (menuType) {
             case HOME:
                 contentFragment = new HomeFragment();
@@ -142,7 +145,7 @@ public class HomeActivity extends BaseActivity {
             case SETTINGS:
                 break;
         }
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, contentFragment).commit();
+        return contentFragment;
     }
 
     private void setDrawer() {
@@ -153,8 +156,8 @@ public class HomeActivity extends BaseActivity {
             @Override
             public ScreenShotable onSwitch(Resourceble slideMenuItem, ScreenShotable screenShotable, int position) {
                 switch (MenuType.fromValue(slideMenuItem.getName())) {
-                    case HOME:
-                        return screenShotable;
+//                    case CLOSE:
+//                        return screenShotable;
                     default:
                         return replaceFragment(slideMenuItem, screenShotable, position);
                 }
@@ -308,10 +311,10 @@ public class HomeActivity extends BaseActivity {
 
         switch (MenuType.fromValue(slideMenuItem.getName())) {
             case HOME:
-                setFragment(MenuType.HOME);
+                contentFragment = setFragment(MenuType.HOME);
                 break;
             case BACKUP:
-                setFragment(MenuType.BACKUP);
+                contentFragment = setFragment(MenuType.BACKUP);
                 break;
             case RATE:
                 break;
@@ -320,7 +323,11 @@ public class HomeActivity extends BaseActivity {
             case SETTINGS:
                 break;
         }
-
+        goFragmentScreen(slideMenuItem.getName(), contentFragment);
         return contentFragment;
+    }
+
+    private void goFragmentScreen(String currentTag, Fragment fragment) {
+        FragmentUtilsManager.changeSupportFragment(getActivity(), R.id.content_frame, fragment, currentTag);
     }
 }

@@ -24,12 +24,12 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private BaseActivity mActivity;
     public Bundle mSavedInstanceState;
-    public String TAG = BaseActivity.class.getSimpleName();
+    public String TAG = this.getClass().getSimpleName();
 
     //Abstract declaration
 //    public abstract Context initActivityContext();
 
-    public abstract String initActivityTag();
+//    public abstract String initActivityTag();
 
     public abstract int initActivityLayout();
 
@@ -56,7 +56,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(initActivityLayout());
 
-        TAG = initActivityTag();
+//        TAG = initActivityTag();
         mSavedInstanceState = savedInstanceState;
         initIntentData(mSavedInstanceState, getIntent());
         initActivityViews();
@@ -67,7 +67,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public Activity getActivity() {
+    public BaseActivity getActivity() {
         return mActivity;
     }
 
