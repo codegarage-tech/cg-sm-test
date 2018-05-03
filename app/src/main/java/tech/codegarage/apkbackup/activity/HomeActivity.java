@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.LinearLayout;
 
+import com.reversecoder.library.util.AllSettingsManager;
 import com.yalantis.jellytoolbar.listener.JellyListener;
 import com.yalantis.jellytoolbar.widget.JellyToolbar;
 
@@ -88,13 +89,17 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     public void initActivityViewsData(Bundle savedInstanceState) {
+        //set default fragment while launching the screen
         if (savedInstanceState == null) {
             contentFragment = setFragment(MenuType.HOME);
-            goFragmentScreen(MenuType.HOME.name(), contentFragment);
+            goFragmentScreen(MenuType.HOME.getValue(), contentFragment);
         }
+
         setActionBar();
         setMenuList();
         setDrawer();
+
+        selectMenuItem(MenuType.HOME.getValue());
     }
 
     @Override
@@ -331,7 +336,17 @@ public class HomeActivity extends BaseActivity {
         return contentFragment;
     }
 
+    private void selectMenuItem(String tag) {
+        if (!AllSettingsManager.isNullOrEmpty(tag)) {
+            View menuItem = viewAnimator.getMenuItemView(tag);
+            if (menuItem != null) {
+                menuItem.setBackgroundResource(R.drawable.selector_menu_item_selected);
+            }
+        }
+    }
+
     private void goFragmentScreen(String currentTag, Fragment fragment) {
         FragmentUtilsManager.changeSupportFragment(getActivity(), R.id.content_frame, fragment, currentTag);
+//        selectMenuItem(currentTag);
     }
 }

@@ -97,6 +97,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    implementation "com.reversecoder.library:rc-library:$libraryVersion"
+
     implementation "com.android.support:appcompat-v7:$supportlibraryVersion"
     implementation "com.android.support:design:$supportlibraryVersion"
     implementation "com.android.support:multidex:$multiDexVersion"

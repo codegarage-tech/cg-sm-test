@@ -24,6 +24,9 @@ allprojects {
         maven {
             url "https://jitpack.io"
         }
+        maven {
+            url "https://raw.github.com/reversecoder/rc-librarydemo-androidstudio/snapshots"
+        }
     }
 
     configurations.all {
@@ -54,6 +57,7 @@ allprojects {
     ext.multiDexVersion = '1.0.3'
     ext.glideVersion = '4.0.0'
     ext.gsonVersion = '2.8.1'
+    ext.libraryVersion = '1.0.1-SNAPSHOT'
     ext.googlePlayServiceGcmVersion = '11.8.0'
 }
 

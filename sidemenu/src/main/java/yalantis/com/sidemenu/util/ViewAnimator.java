@@ -53,6 +53,7 @@ public class ViewAnimator<T extends Resourceble> {
         double size = list.size();
         for (int i = 0; i < size; i++) {
             View viewMenu = appActivity.getLayoutInflater().inflate(R.layout.list_item_menu, null);
+            viewMenu.setTag(list.get(i).getName());
 
             final int finalI = i;
             viewMenu.setOnClickListener(new View.OnClickListener() {
@@ -173,6 +174,17 @@ public class ViewAnimator<T extends Resourceble> {
     private void switchItem(Resourceble slideMenuItem, int topPosition) {
         this.screenShotable = animatorListener.onSwitch(slideMenuItem, screenShotable, topPosition);
         hideMenuContent();
+    }
+
+    public View getMenuItemView(String tag) {
+        if (tag != null && !tag.equalsIgnoreCase("") && viewList.size() > 0) {
+            for (View view : viewList) {
+                if (view.getTag().toString().equalsIgnoreCase(tag)) {
+                    return view;
+                }
+            }
+        }
+        return null;
     }
 
     public interface ViewAnimatorListener {
