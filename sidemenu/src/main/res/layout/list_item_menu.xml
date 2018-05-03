@@ -3,7 +3,7 @@
     android:id="@+id/menu_item_container"
     android:layout_width="70dp"
     android:layout_height="wrap_content"
-    android:background="@drawable/menu_item_selector"
+    android:background="@drawable/selector_menu_item"
     android:clickable="true"
     android:gravity="center"
     android:orientation="vertical"

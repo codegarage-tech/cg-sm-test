@@ -3,7 +3,6 @@ package yalantis.com.sidemenu.util;
 import android.app.Activity;
 import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
@@ -53,7 +52,7 @@ public class ViewAnimator<T extends Resourceble> {
         viewList.clear();
         double size = list.size();
         for (int i = 0; i < size; i++) {
-            View viewMenu = appActivity.getLayoutInflater().inflate(R.layout.menu_list_item, null);
+            View viewMenu = appActivity.getLayoutInflater().inflate(R.layout.list_item_menu, null);
 
             final int finalI = i;
             viewMenu.setOnClickListener(new View.OnClickListener() {
