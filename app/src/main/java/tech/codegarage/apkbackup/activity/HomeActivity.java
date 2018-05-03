@@ -28,8 +28,10 @@ import tech.codegarage.apkbackup.R;
 import tech.codegarage.apkbackup.base.BaseActivity;
 import tech.codegarage.apkbackup.base.BaseFragment;
 import tech.codegarage.apkbackup.customizableactionbardrawertoggle.ActionBarDrawerToggle;
+import tech.codegarage.apkbackup.fragment.AboutFragment;
 import tech.codegarage.apkbackup.fragment.BackupFragment;
 import tech.codegarage.apkbackup.fragment.HomeFragment;
+import tech.codegarage.apkbackup.fragment.SettingsFragment;
 import tech.codegarage.apkbackup.util.FragmentUtilsManager;
 import yalantis.com.sidemenu.enumeration.MenuType;
 import yalantis.com.sidemenu.interfaces.Resourceble;
@@ -138,11 +140,11 @@ public class HomeActivity extends BaseActivity {
             case BACKUP:
                 contentFragment = new BackupFragment();
                 break;
-            case RATE:
-                break;
             case ABOUT:
+                contentFragment = new AboutFragment();
                 break;
             case SETTINGS:
+                contentFragment = new SettingsFragment();
                 break;
         }
         return contentFragment;
@@ -316,14 +318,16 @@ public class HomeActivity extends BaseActivity {
             case BACKUP:
                 contentFragment = setFragment(MenuType.BACKUP);
                 break;
-            case RATE:
-                break;
             case ABOUT:
+                contentFragment = setFragment(MenuType.ABOUT);
                 break;
             case SETTINGS:
+                contentFragment = setFragment(MenuType.SETTINGS);
                 break;
         }
-        goFragmentScreen(slideMenuItem.getName(), contentFragment);
+        if (MenuType.fromValue(slideMenuItem.getName()) != MenuType.RATE) {
+            goFragmentScreen(slideMenuItem.getName(), contentFragment);
+        }
         return contentFragment;
     }
 
